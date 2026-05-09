@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header-container">
+        <img src="header.jpg" alt="Header" class="header-img">
+    </div>
+
+    <div class="container">
+        <div id="main-card" class="card">
+            
+            <div id="question-state">
+                <img src="d1.gif" alt="Cute GIF" class="main-gif">
+                <h2 id="question-text">Are you feeling a bit sad or overthinking right now?</h2>
+                <div class="button-group">
+                    <button class="btn yes-btn" onclick="showReassurance()">Yes, a little..</button>
+                    <button class="btn no-btn" onclick="showHappy()">No, I'm okay!</button>
+                </div>
+            </div>
+
+            <div id="category-state" class="hidden">
+                <img src="d2.gif" alt="Happy GIF" class="main-gif">
+                <p class="instruction">What does your heart need right now?</p>
+                <button class="btn cat-btn" onclick="showSpecific('stressed')">💡 I'm Stressed</button>
+                <button class="btn cat-btn" onclick="showSpecific('loved')">❤️ I need to feel loved</button>
+                <button class="btn cat-btn" onclick="showSpecific('insecure')">✨ I'm feeling insecure</button>
+            </div>
+
+            <div id="final-message-area" class="hidden">
+                <h3 id="message"></h3>
+                <button class="btn refresh-btn" onclick="resetCategories()">Give me another hug</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const library = {
+            stressed: [
+                "Whatever is on your plate right now, we’re sharing it. I’m on your team, and we’re going to get through this day together.",
+                "Take a deep breath. You don’t have to be perfect for me to be completely in love with you.",
+                "I see how hard you’re working, and I’m so proud of you. I’ve got your back, always."
+            ],
+            loved: [
+                "Just a reminder: out of everyone in the world, I’d still choose you every single time.",
+                "You are the best part of my day, my favorite person to talk to, and my home. I love you exactly as you are.",
+                "I know life gets loud sometimes, but you are the only thing that matters to me. I’m not going anywhere."
+            ],
+            insecure: [
+                "You are more than enough. In fact, you’re more than I ever hoped for.",
+                "I don't just love you; I genuinely admire you. You're beautiful, capable, and you're mine.",
+                "If you could see yourself through my eyes for just one minute, you’d never doubt how incredible you are again."
+            ]
+        };
+
+        function showReassurance() {
+            document.getElementById('question-state').classList.add('hidden');
+            document.getElementById('category-state').classList.remove('hidden');
+        }
+
+        function showSpecific(category) {
+            document.getElementById('category-state').classList.add('hidden');
+            const messageArea = document.getElementById('final-message-area');
+            const msgElement = document.getElementById('message');
+
+            messageArea.classList.remove('hidden');
+            const options = library[category];
+            msgElement.innerText = options[Math.floor(Math.random() * options.length)];
+        }
+
+        function resetCategories() {
+            document.getElementById('final-message-area').classList.add('hidden');
+            document.getElementById('category-state').classList.remove('hidden');
+        }
+
+        function showHappy() {
+            document.getElementById('question-text').innerText = "That makes me so happy! Keep shining, baby. ✨";
+            document.querySelector('.button-group').innerHTML = '<button class="btn yes-btn" onclick="location.reload()">Back</button>';
+        }
+    </script>
+</body>
+</html>
