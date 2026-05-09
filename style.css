@@ -1,11 +1,13 @@
 body {
-    background-color: #fffafb;
+    background: linear-gradient(135deg, #fffafb 0%, #ffebf0 100%);
     font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
     padding-bottom: 50px;
+    overflow-x: hidden;
 }
 
 .header-container {
@@ -29,12 +31,13 @@ body {
 
 .card {
     background: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 30px;
     box-shadow: 0 10px 40px rgba(255, 182, 193, 0.4);
     text-align: center;
     max-width: 400px;
     width: 100%;
+    position: relative;
 }
 
 .main-gif {
@@ -50,6 +53,15 @@ h3 { color: #555; font-size: 18px; line-height: 1.6; padding: 0 10px; }
     font-style: italic;
     color: #aaa;
     font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .btn {
@@ -58,12 +70,21 @@ h3 { color: #555; font-size: 18px; line-height: 1.6; padding: 0 10px; }
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    margin: 8px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-.yes-btn { background-color: #ffb6c1; color: white; width: 85%; }
-.no-btn { background-color: #f0f0f0; color: #888; width: 85%; }
+.yes-btn { 
+    background-color: #ffb6c1; 
+    color: white; 
+    width: 85%; 
+    z-index: 10;
+}
+
+.no-btn { 
+    background-color: #f0f0f0; 
+    color: #888; 
+    width: 85%; 
+}
 
 .cat-btn {
     background-color: #ffffff;
@@ -79,8 +100,12 @@ h3 { color: #555; font-size: 18px; line-height: 1.6; padding: 0 10px; }
     color: white;
 }
 
-.refresh-btn { background-color: #add8e6; color: white; margin-top: 15px; }
+.refresh-btn { 
+    background-color: #add8e6; 
+    color: white; 
+    margin-top: 15px; 
+}
 
-.btn:hover { transform: scale(1.03); }
+.btn:hover { transform: scale(1.05); }
 
 .hidden { display: none; }
