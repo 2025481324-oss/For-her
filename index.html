@@ -8,6 +8,10 @@
 </head>
 <body>
 
+    <audio id="bg-music" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="header-container">
         <img src="header.jpg" alt="Header" class="header-img">
     </div>
@@ -16,16 +20,16 @@
         <div id="main-card" class="card">
             
             <div id="question-state">
-                <img src="d1.gif" alt="Cute GIF" class="main-gif">
+                <img src="d1.gif" alt="Cute GIF" class="main-gif" id="display-gif">
                 <h2 id="question-text">Are you feeling a bit sad or overthinking right now?</h2>
                 <div class="button-group">
-                    <button class="btn yes-btn" onclick="showReassurance()">Yes, a little..</button>
-                    <button class="btn no-btn" onclick="showHappy()">No, I'm okay!</button>
+                    <button id="yesBtn" class="btn yes-btn" onclick="showReassurance()">Yes, a little..</button>
+                    <button id="noBtn" class="btn no-btn" onclick="makeYesBigger()">No, I'm okay!</button>
                 </div>
             </div>
 
             <div id="category-state" class="hidden">
-                <img src="d2.gif" alt="Happy GIF" class="main-gif">
+                <img src="d3.gif" alt="Category GIF" class="main-gif">
                 <p class="instruction">What does your heart need right now?</p>
                 <button class="btn cat-btn" onclick="showSpecific('stressed')">💡 I'm Stressed</button>
                 <button class="btn cat-btn" onclick="showSpecific('loved')">❤️ I need to feel loved</button>
@@ -33,6 +37,7 @@
             </div>
 
             <div id="final-message-area" class="hidden">
+                <img src="d4.gif" alt="Final GIF" class="main-gif">
                 <h3 id="message"></h3>
                 <button class="btn refresh-btn" onclick="resetCategories()">Give me another hug</button>
             </div>
@@ -41,6 +46,24 @@
     </div>
 
     <script>
+        // Start music on first click (Browser requirement)
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('bg-music');
+            audio.play().catch(e => console.log("Audio play deferred"));
+        }, { once: true });
+
+        // Prank: Make Yes button bigger
+        let yesSize = 1;
+        function makeYesBigger() {
+            yesSize += 0.4;
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.style.transform = `scale(${yesSize})`;
+            
+            const noBtn = document.getElementById('noBtn');
+            const phrases = ["Are you sure?", "Really??", "Don't lie to me!", "Click the pink one!", "Pretty please?"];
+            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        }
+
         const library = {
             stressed: [
                 "Whatever is on your plate right now, we’re sharing it. I’m on your team, and we’re going to get through this day together.",
@@ -76,13 +99,4 @@
 
         function resetCategories() {
             document.getElementById('final-message-area').classList.add('hidden');
-            document.getElementById('category-state').classList.remove('hidden');
-        }
-
-        function showHappy() {
-            document.getElementById('question-text').innerText = "That makes me so happy! Keep shining, baby. ✨";
-            document.querySelector('.button-group').innerHTML = '<button class="btn yes-btn" onclick="location.reload()">Back</button>';
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('category-state').classList
