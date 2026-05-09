@@ -4,7 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Favorite Person</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS INTEGRATED FOR FAIL-SAFE LOADING */
+        body {
+            background: linear-gradient(135deg, #fffafb 0%, #ffebf0 100%);
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        .header-container {
+            width: 90%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+
+        .header-img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 90%;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .main-gif {
+            width: 180px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        h2 { color: #ff8da1; font-size: 20px; line-height: 1.4; }
+        h3 { color: #555; font-size: 18px; line-height: 1.6; padding: 0 10px; }
+
+        .instruction { font-style: italic; color: #aaa; font-size: 14px; margin-bottom: 20px; }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: none;
+            padding: 14px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .yes-btn { background-color: #ffb6c1; color: white; width: 85%; }
+        .no-btn { background-color: #f0f0f0; color: #888; width: 85%; }
+
+        .cat-btn {
+            background-color: #ffffff;
+            border: 2px solid #ffb6c1;
+            color: #ff8da1;
+            width: 85%;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .cat-btn:hover { background-color: #ffb6c1; color: white; }
+
+        .refresh-btn { background-color: #add8e6; color: white; margin-top: 15px; }
+
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
@@ -17,14 +107,14 @@
     </div>
 
     <div class="container">
-        <div id="main-card" class="card">
+        <div class="card">
             
             <div id="question-state">
-                <img src="d1.gif" alt="Cute GIF" class="main-gif" id="display-gif">
-                <h2 id="question-text">Are you feeling a bit sad or overthinking right now?</h2>
+                <img src="d1.gif" alt="Cute GIF" class="main-gif">
+                <h2>Are you feeling a bit sad or overthinking right now?</h2>
                 <div class="button-group">
-                    <button id="yesBtn" class="btn yes-btn" onclick="showReassurance()">Yes, a little..</button>
-                    <button id="noBtn" class="btn no-btn" onclick="makeYesBigger()">No, I'm okay!</button>
+                    <button id="yesBtn" class="btn yes-btn">Yes, a little..</button>
+                    <button id="noBtn" class="btn no-btn">No, I'm okay!</button>
                 </div>
             </div>
 
@@ -46,23 +136,33 @@
     </div>
 
     <script>
-        // Start music on first click (Browser requirement)
-        document.addEventListener('click', function() {
-            const audio = document.getElementById('bg-music');
-            audio.play().catch(e => console.log("Audio play deferred"));
-        }, { once: true });
-
-        // Prank: Make Yes button bigger
-        let yesSize = 1;
-        function makeYesBigger() {
-            yesSize += 0.4;
+        // Use Window Load to ensure all elements exist before running JS
+        window.onload = function() {
             const yesBtn = document.getElementById('yesBtn');
-            yesBtn.style.transform = `scale(${yesSize})`;
-            
             const noBtn = document.getElementById('noBtn');
-            const phrases = ["Are you sure?", "Really??", "Don't lie to me!", "Click the pink one!", "Pretty please?"];
-            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-        }
+            const audio = document.getElementById('bg-music');
+
+            let yesSize = 1;
+
+            // Start music on first click anywhere
+            document.addEventListener('click', function() {
+                audio.play();
+            }, { once: true });
+
+            // No Button Prank
+            noBtn.addEventListener('click', function() {
+                yesSize += 0.5;
+                yesBtn.style.transform = `scale(${yesSize})`;
+                const phrases = ["Are you sure?", "Really??", "Don't lie!", "Look at the pink button!", "You're overthinking!!"];
+                noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            });
+
+            // Yes Button Logic
+            yesBtn.addEventListener('click', function() {
+                document.getElementById('question-state').classList.add('hidden');
+                document.getElementById('category-state').classList.remove('hidden');
+            });
+        };
 
         const library = {
             stressed: [
@@ -82,21 +182,17 @@
             ]
         };
 
-        function showReassurance() {
-            document.getElementById('question-state').classList.add('hidden');
-            document.getElementById('category-state').classList.remove('hidden');
-        }
-
         function showSpecific(category) {
             document.getElementById('category-state').classList.add('hidden');
-            const messageArea = document.getElementById('final-message-area');
-            const msgElement = document.getElementById('message');
-
-            messageArea.classList.remove('hidden');
+            document.getElementById('final-message-area').classList.remove('hidden');
             const options = library[category];
-            msgElement.innerText = options[Math.floor(Math.random() * options.length)];
+            document.getElementById('message').innerText = options[Math.floor(Math.random() * options.length)];
         }
 
         function resetCategories() {
             document.getElementById('final-message-area').classList.add('hidden');
-            document.getElementById('category-state').classList
+            document.getElementById('category-state').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
